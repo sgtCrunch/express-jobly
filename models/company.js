@@ -44,27 +44,34 @@ class Company {
     return company;
   }
 
-  /** Find all companies.
+  /** Find all companies with provided filters.
+   * 
+   * Filters:
+   *  nameLike: find companies containing these words
+   *  minEmployees: companies should have atleast this many employees
+   *  maxEmployees: companies should have atmost this many employees
+   * 
+   * minEmployees must be less than maxEmployees, no filters are required
    *
    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
    * */
 
-  static async findAll(filter) {
+  static async findAll(filter={}) {
 
     const whereClause = "";
 
-    if(filter){
+    if(filter.length > 0){
       whereClause = "WHERE";
       if(filter.nameLike){
         whereClause += ` LOWER(name) LIKE LOWER(${filter.nameLike})`
       }
       if(filter.minEmployees){
         if(whereClause.length > 5) whereClause += " AND";
-        whereClause += ` num_employees > ${filter.minEmployees}`;
+        whereClause += ` num_employees >= ${filter.minEmployees}`;
       }
       if(filter.maxEmployees){
         if(whereClause.length > 5) whereClause += " AND";
-        whereClause += ` num_employees < ${filter.maxEmployees}`;
+        whereClause += ` num_employees <= ${filter.maxEmployees}`;
       }
     }
 

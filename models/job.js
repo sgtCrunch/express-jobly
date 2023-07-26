@@ -11,20 +11,20 @@ class Job {
    *
    * data should be { title, salary, equity, company_handle }
    *
-   * Returns { title, salary, equity, company_handle }
+   * Returns { title, salary, equity, companyHandle }
    *
    * Throws BadRequestError if job already in database.
    * */
 
   static async create({ title, salary, equity, companyHandle }) {
     const duplicateCheck = await db.query(
-          `SELECT title
+          `SELECT title, company_handle
            FROM jobs
-           WHERE title = $1`,
-        [title]);
+           WHERE title = $1 and company_handle = $2`,
+        [title, companyHandle]);
 
     if (duplicateCheck.rows[0])
-      throw new BadRequestError(`Duplicate company: ${handle}`);
+      throw new BadRequestError(`Duplicate company: ${title}`);
 
     const result = await db.query(
           `INSERT INTO jobs
@@ -58,12 +58,12 @@ class Job {
 
   static async findAll(filter={}) {
 
-    const whereClause = "";
+    let whereClause = "";
 
-    if(filter.length > 0){
+    if(Object.keys(filter).length > 0){
       whereClause = "WHERE";
       if(filter.titleLike){
-        whereClause += ` LOWER(title) LIKE LOWER(${filter.titleLike})`
+        whereClause += ` LOWER(title) LIKE LOWER('${filter.titleLike}')`
       }
       if(filter.minSalary){
         if(whereClause.length > 5) whereClause += " AND";
@@ -78,7 +78,6 @@ class Job {
     const jobsRes = await db.query(
           `SELECT title,
                   salary,
-                  description,
                   equity,
                   company_handle AS "companyHandle"
            FROM jobs
@@ -117,9 +116,9 @@ class Job {
    * This is a "partial update" --- it's fine if data doesn't contain all the
    * fields; this only changes provided ones.
    *
-   * Data can include: { title, salary, equity, company_handle }
+   * Data can include: { title, salary, equity, companyHandle }
    *
-   * Returns { title, salary, equity, company_handle }
+   * Returns { title, salary, equity, companyHandle }
    *
    * Throws NotFoundError if not found.
    */
@@ -137,7 +136,6 @@ class Job {
                       WHERE id = ${idVarIdx} 
                       RETURNING title, 
                                 salary, 
-                                description, 
                                 equity, 
                                 company_handle AS "companyHandle"`;
     const result = await db.query(querySql, [...values, id]);

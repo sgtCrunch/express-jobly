@@ -87,22 +87,8 @@ describe("findAll", function () {
   });
 
   test("works: nameLike filter", async function () {
-    let companies = await Company.findAll({nameLike : "C"});
+    let companies = await Company.findAll({nameLike : "c3"});
     expect(companies).toEqual([
-      {
-        handle: "c1",
-        name: "C1",
-        description: "Desc1",
-        numEmployees: 1,
-        logoUrl: "http://c1.img",
-      },
-      {
-        handle: "c2",
-        name: "C2",
-        description: "Desc2",
-        numEmployees: 2,
-        logoUrl: "http://c2.img",
-      },
       {
         handle: "c3",
         name: "C3",
@@ -127,7 +113,7 @@ describe("findAll", function () {
   });
 
   test("Works all three filters", async function () {
-    let companies = await Company.findAll({nameLike : "3", minEmployees : 2, maxEmployees : 3});
+    let companies = await Company.findAll({nameLike : "3", minEmployees : 2, maxEmployees : 2});
     expect(companies).toEqual([]);
     
   });

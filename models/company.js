@@ -58,12 +58,12 @@ class Company {
 
   static async findAll(filter={}) {
 
-    const whereClause = "";
+    let whereClause = "";
 
-    if(filter.length > 0){
+    if(Object.keys(filter).length > 0){
       whereClause = "WHERE";
       if(filter.nameLike){
-        whereClause += ` LOWER(name) LIKE LOWER(${filter.nameLike})`
+        whereClause += ` LOWER(name) LIKE LOWER('${filter.nameLike}')`
       }
       if(filter.minEmployees){
         if(whereClause.length > 5) whereClause += " AND";
@@ -74,6 +74,8 @@ class Company {
         whereClause += ` num_employees <= ${filter.maxEmployees}`;
       }
     }
+
+    console.log(whereClause);
 
     const companiesRes = await db.query(
           `SELECT handle,

@@ -5,38 +5,35 @@
     "default": {},
     "title": "Root Schema",
     "required": [],
-    "additionalProperties": false,
     "properties": {
-        "nameLike": {
+        "titleLike": {
             "type": "string",
             "default": "",
-            "title": "The name Schema",
+            "title": "The titleLike Schema",
             "examples": [
-                "net"
+                "engineer"
             ]
         },
-        "minEmployees": {
+        "minSalary": {
             "type": "integer",
             "default": 0,
-            "minimum": 0,
-            "title": "The minEmployees Schema",
+            "title": "The minSalary Schema",
             "examples": [
-                10
+                100000
             ]
         },
-        "maxEmployees": {
-            "type": "integer",
-            "default": 0,
-            "minimum": 0,
-            "title": "The maxEmployees Schema",
+        "hasEquity": {
+            "type": "boolean",
+            "default": false,
+            "title": "The hasEquity Schema",
             "examples": [
-                200
+                true
             ]
         }
     },
     "examples": [{
-        "nameLike": "net",
-        "minEmployees": 10,
-        "maxEmployees": 200
+        "titleLike": "engineer",
+        "minSalary": 100000,
+        "hasEquity": true
     }]
 }

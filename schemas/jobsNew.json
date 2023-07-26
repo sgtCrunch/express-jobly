@@ -1,0 +1,51 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "title",
+        "companyHandle"
+    ],
+    "properties": {
+        "title": {
+            "type": "string",
+            "default": "",
+            "title": "The title Schema",
+            "examples": [
+                "Aeronautical engineer"
+            ]
+        },
+        "salary": {
+            "type": "integer",
+            "default": 0,
+            "title": "The salary Schema",
+            "examples": [
+                135000
+            ]
+        },
+        "equity": {
+            "type": "number",
+            "default": 0.0,
+            "title": "The equity Schema",
+            "examples": [
+                0.078
+            ]
+        },
+        "companyHandle": {
+            "type": "string",
+            "default": "",
+            "title": "The companyHandle Schema",
+            "examples": [
+                "norman-harvey"
+            ]
+        }
+    },
+    "examples": [{
+        "title": "Aeronautical engineer",
+        "salary": 135000,
+        "equity": 0.078,
+        "companyHandle": "norman-harvey"
+    }]
+}

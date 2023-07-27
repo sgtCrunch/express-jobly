@@ -80,6 +80,21 @@ router.get("/:username", ensureLoggedIn, ensureAuth, async function (req, res, n
   }
 });
 
+/** POST /:username/jobs/:id => {applied : jobId}
+ *
+ * This applies username provided to the jobId provided
+ *
+ * Authorization required: login or admin
+ **/
+
+router.post("/:username/jobs/:id", ensureLoggedIn, ensureAuth, async function (req, res, next) {
+  try {
+    await User.apply(req.params.username, req.params.id);
+    return res.status(201).json({"applied" : req.params.id});
+  } catch (err) {
+    return next(err);
+  }
+});
 
 /** PATCH /[username] { user } => { user }
  *

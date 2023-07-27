@@ -216,33 +216,33 @@ describe("GET /users/:username", function () {
 
 /************************************** POST /:username/jobs/:id */
 
-describe("POST /:username/jobs/:id", function () {
+describe("POST /users/:username/jobs/:id", function () {
 
   test("works for admins", async function () {
     const data = await db.query(`SELECT id FROM jobs;`);
     const id = data.rows[0].id;
     const resp = await request(app)
-        .post(`/u1/jobs/${id}`)
+        .post(`/users/u1/jobs/${id}`)
         .set("authorization", `Bearer ${adminToken}`);
     expect(resp.statusCode).toEqual(201);
-    expect(resp.body).toEqual({"applied" : id});
+    expect(resp.body).toEqual({"applied" : ""+id});
   });
 
   test("works for user with Username", async function () {
     const data = await db.query(`SELECT id FROM jobs;`);
     const id = data.rows[0].id;
     const resp = await request(app)
-    .post(`/u1/jobs/${id}`)
+    .post(`/users/u1/jobs/${id}`)
     .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(201);
-    expect(resp.body).toEqual({"applied" : id});
+    expect(resp.body).toEqual({"applied" : ""+id});
   });
 
   test("unauth for non-admin user and non-logged in user", async function () {
     const data = await db.query(`SELECT id FROM jobs;`);
     const id = data.rows[0].id;
     const resp = await request(app)
-      .post(`/u2/jobs/${id}`)
+      .post(`/users/u2/jobs/${id}`)
       .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(401);
   });
@@ -251,16 +251,16 @@ describe("POST /:username/jobs/:id", function () {
     const data = await db.query(`SELECT id FROM jobs;`);
     const id = data.rows[0].id;
     const resp = await request(app)
-      .post(`/u0/jobs/${id}`)
-      .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(400);
+      .post(`/users/u0/jobs/${id}`)
+      .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.statusCode).toEqual(404);
   });
 
   test("bad request if invalid job id", async function () {
     const resp = await request(app)
-      .post(`/u1/jobs/0`)
+      .post(`/users/u1/jobs/0`)
       .set("authorization", `Bearer ${u1Token}`);
-    expect(resp.statusCode).toEqual(400);
+    expect(resp.statusCode).toEqual(404);
   });
 });
 

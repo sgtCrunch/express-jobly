@@ -129,6 +129,43 @@ describe("findAll", function () {
   });
 });
 
+
+/************************************** apply */
+
+describe("apply", function () {
+  
+  test("works", async function () {
+    const data = await db.query(`SELECT id FROM jobs;`);
+    const id = data.rows[0].id;
+    const success = await User.apply('u1', id);
+    expect(success).toEqual({"username" : 'u1', "jobId" : id});
+  });
+
+  test("NotFoundError when invalid username", async function () {
+    try{
+      const data = await db.query(`SELECT id FROM jobs;`);
+      const id = data.rows[0].id;
+      await User.apply('u0', id);
+    }
+    catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+    
+  });
+
+  test("NotFoundError when invalid job id", async function () {
+    try{
+      await User.apply('u1', 0);
+    }
+    catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+    
+  });
+
+});
+
+
 /************************************** get */
 
 describe("get", function () {

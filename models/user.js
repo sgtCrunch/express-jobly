@@ -190,6 +190,38 @@ class User {
     return user;
   }
 
+   /** Given a username and jobId, add pair to applications table.
+   *
+   * Returns {username, jobId}
+   *
+   * Throws NotFoundError if user not found.
+   **/
+
+  static async apply(username, jobId) {
+    const userRes = await db.query(
+          `SELECT username
+          FROM users
+          WHERE username = ${username}`); 
+    const user = userRes.rows[0];
+    if (!user) throw new NotFoundError(`No user: ${username}`);
+    
+    const jobRes = await db.query(
+      `SELECT id
+      FROM jobs
+      WHERE id = ${jobId}`); 
+    const job = jobRes.rows[0];
+    if (!job) throw new NotFoundError(`No job: ${id}`);
+    
+    const result = await db.query(
+      `INSERT INTO applications
+      (username, job_id)
+      VALUES ($1, $2)
+      RETURNING username, job_id AS "jobId`,
+      [username, jobId]);
+
+    return result;
+  }
+
   /** Delete given user from database; returns undefined. */
 
   static async remove(username) {

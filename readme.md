@@ -15,5 +15,5 @@ To run the tests:
 
 
 ## High Level Project Architecture
-![image](https://github.com/sgtCrunch/express-jobly/assets/97754938/00fe1e64-9974-439e-a827-e15c07eb39e0)
+![image](https://github.com/sgtCrunch/express-jobly/assets/97754938/87d9552d-6829-4b64-be62-db189fa272e4)
 
